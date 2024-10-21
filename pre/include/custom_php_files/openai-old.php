@@ -3,7 +3,7 @@
 if(!defined('custom_page_from_inclusion')) { die(); }
 
 // Define the API key at the top for reuse
-$api_key = "sk-svcacct-YQBNPffgsbGvcA3UhY2rFUYhCJHmKZZMssKKQFFd_C3-9uaJCydkKr5jPkPSBTEU9v6T3BlbkFJ9jt0ML0JPggXi-N0cAP3_lYJNB8a6p_i3hGq4k58y_cEHUstoXannARsBbUO5BbhcSgA";  // Replace with your OpenAI API key
+$api_key = "";  // Replace with your OpenAI API key
 $debugmode = false;  // Set to true to enable debugging, false to disable it
 
 

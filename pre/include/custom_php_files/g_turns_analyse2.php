@@ -25,9 +25,11 @@ output($str);
 //Set variables
 $j=0;
 $rt=1;
-$file="$upload_directory";
-$file.="/";
-$file.="$_cp_myfile";
+// Ensure the upload directory has a trailing slash
+$upload_directory = rtrim($upload_directory, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+// Safely concatenate the directory and the file name
+$file = $upload_directory . $_cp_myfile;
+
 $myfilearray=file($file);
 if (1==$debug_mode) {
 	($myfilearray);

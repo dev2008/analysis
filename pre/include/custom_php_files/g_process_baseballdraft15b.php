@@ -35,11 +35,10 @@ output($str);
 				$_cp_skill3=$row3[11];
 				$_cp_skill4=$row3[12];
 				
-				//Standard rating
+				//Simple rating
+				//Dinged for being left handed pitcher
 				if ("Pit"==$_cp_ptype AND "L"==$_cp_phand) { 
 					$_cp_srate=5*(($_cp_plevel-1)+($_cp_ppot/2));
-					#$str="<p>#$_cp_pid dinged for being left handed pitcher ($_cp_ptype - $_cp_phand)</p>";
-					#output($str);										
 				} else {
 					$_cp_srate=5*($_cp_plevel+($_cp_ppot/2));	
 				}
