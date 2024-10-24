@@ -10,7 +10,7 @@ $str.="<div class='w3-container $mycolour6'>";
 $str.="<div class='w3-pale-green'>";
 $str.="<h1>Gameplan Football Update College records</h1>";
 $str.="</div>";
-$str.="</header>";
+#$str.="</header>";
 output($str);
 $str= "<div class='w3-panel $mycolour4 nz-card w3-round-xxlarge'>";
 output($str);
@@ -44,6 +44,25 @@ $res = execute_db($_cp_sql, $conn);
 $_cp_sql = "TRUNCATE fc_vgames";
 $result = $conn->prepare($_cp_sql); 
 $result->execute(); 
+
+// Disable strict mode for the session
+$conn->exec("SET SESSION sql_mode = '';");
+//Fix invalid datetimes
+$_cp_sql = "UPDATE `f_games`
+			SET `creation_time` = NOW() 
+			WHERE `creation_time` = '0000-00-00 00:00:00';";
+$result = $conn->prepare($_cp_sql); 
+$result->execute(); 
+$_cp_sql = "UPDATE `f_games`
+			SET `modification_time` = NOW() 
+			WHERE `creation_time` = '0000-00-00 00:00:00';";
+$result = $conn->prepare($_cp_sql); 
+$result->execute(); 
+// Re-enable strict mode after the update
+$conn->exec("SET SESSION sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE';");
+
+
+
 $_cp_sql = "INSERT INTO fc_vgames
 			SELECT `a`.`id_game` AS `id_game`, `a`.`league` AS `league`, `a`.`season` AS `season`, `a`.`week` AS `week`, `a`.`team` AS `team`, `a`.`franchise` AS `franchise`, `a`.`coach` AS `coach`, `a`.`qb` AS `qb`, `a`.`safe` AS `safe`, `a`.`q1` AS `q1`, `a`.`q2` AS `q2`, `a`.`q3` AS `q3`, `a`.`q4` AS `q4`, `a`.`ot` AS `ot`, `a`.`score` AS `score`, `a`.`fga` AS `fga`, `a`.`fgg` AS `fgg`, `a`.`epa` AS `epa`, `a`.`epg` AS `epg`, `a`.`cva` AS `cva`, `a`.`cvg` AS `cvg`, `a`.`punts` AS `punts`, `a`.`thirdcon` AS `thirdcon`, `a`.`thirddowns` AS `thirddowns`, `a`.`fourthcon` AS `fourthcon`, `a`.`fourthdowns` AS `fourthdowns`, `a`.`firstd` AS `firstd`, `a`.`passcmp` AS `passcmp`, `a`.`passatt` AS `passatt`, `a`.`passyds` AS `passyds`, `a`.`passlng` AS `passlng`, `a`.`passlngtd` AS `passlngtd`, `a`.`passtd` AS `passtd`, `a`.`passpct` AS `passpct`, `a`.`interception` AS `interception`, `a`.`hrd` AS `hrd`, `a`.`skd` AS `skd`, `a`.`rush` AS `rush`, `a`.`rushyds` AS `rushyds`, `a`.`rushlng` AS `rushlng`, `a`.`rushlngtd` AS `rushlngtd`, `a`.`rushtd` AS `rushtd`, `a`.`fum` AS `fum`, `a`.`qbatt` AS `qbatt`, `a`.`qbyds` AS `qbyds`, `a`.`kr` AS `kr`, `a`.`kryds` AS `kryds`, `a`.`krtd` AS `krtd`, `a`.`pr` AS `pr`, `a`.`pryds` AS `pryds`, `a`.`prtd` AS `prtd`, `a`.`form1` AS `form1`, `a`.`form2` AS `form2`, `a`.`run1` AS `run1`, `a`.`run2` AS `run2`, `a`.`pass1` AS `pass1`, `a`.`pass2` AS `pass2`, `a`.`def1` AS `def1`, `a`.`def2` AS `def2`, `a`.`homeaway` AS `homeaway`, `a`.`gametype` AS `gametype`, `a`.`opp_team` AS `opp_team`, `a`.`opp_franchise` AS `opp_franchise`, `a`.`opp_coach` AS `opp_coach`, `a`.`opp_qb` AS `opp_qb`, `a`.`opp_safe` AS `opp_safe`, `a`.`opp_q1` AS `opp_q1`, `a`.`opp_q2` AS `opp_q2`, `a`.`opp_q3` AS `opp_q3`, `a`.`opp_q4` AS `opp_q4`, `a`.`opp_ot` AS `opp_ot`, `a`.`opp_score` AS `opp_score`, `a`.`opp_fga` AS `opp_fga`, `a`.`opp_fgg` AS `opp_fgg`, `a`.`opp_epa` AS `opp_epa`, `a`.`opp_epg` AS `opp_epg`, `a`.`opp_cva` AS `opp_cva`, `a`.`opp_cvg` AS `opp_cvg`, `a`.`opp_punts` AS `opp_punts`, `a`.`opp_thirdcon` AS `opp_thirdcon`, `a`.`opp_thirddowns` AS `opp_thirddowns`, `a`.`opp_fourthcon` AS `opp_fourthcon`, `a`.`opp_fourthdowns` AS `opp_fourthdowns`, `a`.`opp_firstd` AS `opp_firstd`, `a`.`opp_passcmp` AS `opp_passcmp`, `a`.`opp_passatt` AS `opp_passatt`, `a`.`opp_passyds` AS `opp_passyds`, `a`.`opp_passlng` AS `opp_passlng`, `a`.`opp_passlngtd` AS `opp_passlngtd`, `a`.`opp_passtd` AS `opp_passtd`, `a`.`opp_passpct` AS `opp_passpct`, `a`.`opp_interception` AS `opp_interception`, `a`.`opp_hrd` AS `opp_hrd`, `a`.`opp_skd` AS `opp_skd`, `a`.`opp_rush` AS `opp_rush`, `a`.`opp_rushyds` AS `opp_rushyds`, `a`.`opp_rushlng` AS `opp_rushlng`, `a`.`opp_rushlngtd` AS `opp_rushlngtd`, `a`.`opp_rushtd` AS `opp_rushtd`, `a`.`opp_fum` AS `opp_fum`, `a`.`opp_qbatt` AS `opp_qbatt`, `a`.`opp_qbyds` AS `opp_qbyds`, `a`.`opp_kr` AS `opp_kr`, `a`.`opp_kryds` AS `opp_kryds`, `a`.`opp_krtd` AS `opp_krtd`, `a`.`opp_pr` AS `opp_pr`, `a`.`opp_pryds` AS `opp_pryds`, `a`.`opp_prtd` AS `opp_prtd`, `a`.`opp_form1` AS `opp_form1`, `a`.`opp_form2` AS `opp_form2`, `a`.`opp_run1` AS `opp_run1`, `a`.`opp_run2` AS `opp_run2`, `a`.`opp_pass1` AS `opp_pass1`, `a`.`opp_pass2` AS `opp_pass2`, `a`.`opp_def1` AS `opp_def1`, `a`.`opp_def2` AS `opp_def2`, `a`.`win` AS `win`, `a`.`lose` AS `lose`, `a`.`tie` AS `tie`, `a`.`creation_time` AS `creation_time`, `a`.`modification_time` AS `modification_time`, `a`.`modification_by` AS `modification_by`, `a`.`modification_from` AS `modification_from` 
 			FROM `f_games` AS `a` 
@@ -527,6 +546,8 @@ $str.="<br />";
 $str.="</div>\n";
 output($str);
 }
+
+
 
 require_once 'g_footer.php';
 

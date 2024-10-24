@@ -9,27 +9,33 @@ require_once 'mydatabase.php';
 
 $_cp_myname=$_SESSION['logged_user_infos_ar']["username_user"];
 
-$str="<br />";
-$str.="<div class='w3-container $mycolour15 w3-round-xxlarge'>\n";
+//Create basic layout
+$str="<div class='w3-container $mycolour6 w3-round-xxlarge'>";
+$str.="<div class='w3-pale-green w3-round-large'>";
+$str.="<h1>&nbsp;Welcome to Gameplan Analysis</h1>";
+$str.="</div>";
+$str.= "<div class='w3-panel $mycolour4 w3-round-medium '>";
 output($str);
 
 $_cp_dbcheck=substr($db_name,0,3);
 if ('dev' == $_cp_dbcheck){
-		echo "<h1>Welcome to Gameplan Analysis $_cp_myname</h1>";
-		echo "<h2>You are logged on to ** DEV **</h2>";
+		echo "<h2>$_cp_myname you are logged on to ** DEV **</h2>";
 	} elseif ('pre' == $_cp_dbcheck) {
-		echo "<h1>Welcome to Gameplan Analysis $_cp_myname</h1>";
-		echo "<h2>You are logged on to ** PRE-PROD **</h2>";
+		echo "<h2>$_cp_myname you are logged on to ** PRE-PROD **</h2>";
 	} else {
 				echo "<h1>Welcome to Gameplan Analysis</h1>";
-		#echo "<br>";
 	}
 
 
 #Main content
-$str="<p>Please choose an item from the menu to begin.</p>";
+$str="<h3>Please choose an item from the menu to begin.</h3>";
 output($str);
 
+
+//End of page
+$str="</div>";
+output($str);
+
+//Start of footer
 require_once 'g_footer.php';
 ?>
-

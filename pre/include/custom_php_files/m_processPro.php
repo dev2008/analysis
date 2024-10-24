@@ -9,22 +9,21 @@ $_cp_myoffcoach="";
 $_cp_mydefcoach="";
 $time_start = microtime(true);
 $number_of_rowstotal=0;
+
+//Set up headers etc
 $str="<br /><div class='nz-card'>";
-$str.="<header class='w3-container w3-blue-gray'>";
-$str.="<h2>Pro Play By Play updates</h2>";
-$str.="</header>";
+$str.="<div class='w3-container $mycolour6'>";
+$str.="<div class='w3-pale-green'>";
+$str.="<h1>Process Pro Play By Play</h1>";
+$str.="</div>";
+$str.= "<div class='w3-panel $mycolour4 nz-card w3-round-xxlarge'>";
+$str.="<h2>Finding unprocessed records</h2>";
 output($str);
 
-$str="<div class='w3-container w3-pale-blue'>\n";
-$str.="<br />\n";
-$str.="<div class='w3-container w3-teal'>\n";
-output($str);
+
 
 //Allocate Coaches to  Pro games
 //Find missing records
-$str="<p>Find missing records</p>\n";
-output($str);
-
 //Check for weeks we have in games table but no Coaches
 $_cp_sql = "SELECT DISTINCT a.`league`,a.`season`,a.`week` FROM `f_games` a WHERE a.league LIKE 'NFL%' AND NOT EXISTS ( SELECT 1 FROM `fp_gamecoaches` b WHERE a.league = b.league AND a.season = b.season AND a.week = b.week );";
 $_cp_weeks=nz_pdo_array($_cp_sql,$conn);
@@ -67,7 +66,7 @@ foreach ($_cp_weeks as $_cp_week) {
 
 
 //Pro Play by Plays
-$str="<p>Pro Play by Plays</p>\n";
+$str="<h2>Pro Play by Plays</h2>\n";
 output($str);
 
 $_cp_sql3 = "SELECT `a_id`,`a_league`, `a_season`, `a_week`,`a_off`,`a_def`,`n_offcoach`, `n_defcoach` 
@@ -121,19 +120,23 @@ while($row3 = fetch_row_db($res3)){
 			
 			$i++;
 		if ($i % 500 == 0) {
-			$str=' / Processed ';
+			$str='Processed ';
 			$str.=$i;
-			$str.=' Pro PBP Records ';
+			$str.=' Pro PBP Records /';
 			output($str);
 		}
 }
 //Report final 
-$str=' / Processed ';
+$str='Processed ';
 $str.=$i;
 $str.=' Pro PBP Records ';
 $str.="</p>\n";
 $str.="<br />";
 output($str);	
+
+
+$str="</div>\n";
+output($str);
 
 
 //Start of footer

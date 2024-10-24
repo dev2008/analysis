@@ -5,14 +5,14 @@ require_once 'g_functions.php';
 require_once 'mydatabase.php';
 
 $time_start = microtime(true);
-$str="<br /><div class='nz-card'>";
-$str.="<div class='w3-container $mycolour6'>";
-$str.="<div class='w3-pale-green'>";
-$str.="<h1>Processing Franchises</h1>";
+//Create basic layout
+$str="<div class='w3-container $mycolour6 w3-round-xxlarge'>";
+$str.="<div class='w3-pale-green w3-round-large'>";
+$str.="<h1>&nbsp;Processing Franchises</h1>";
 $str.="</div>";
 $str.="</header>";
 output($str);
-$str= "<div class='w3-panel $mycolour4 nz-card w3-round-xxlarge'>";
+$str= "<div class='w3-panel $mycolour4 w3-round-medium '>";
 output($str);
 
 //Fix Washington Name
@@ -249,9 +249,10 @@ $_cp_sql="INSERT INTO `g_updated` (`updated_id`, `updated_when`) VALUES (NULL, c
 nz_pdo($_cp_sql,$conn);
 
 
+//End of page
+$str="</div>";
+output($str);
 
 //Start of footer
 require_once 'g_footer.php';
-
-
 ?>

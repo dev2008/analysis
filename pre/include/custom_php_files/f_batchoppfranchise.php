@@ -127,11 +127,16 @@ output($str);
 
 
 //End League loop
-$str='<p>Processed ';
+$str='Processed ';
 $str.=$mycount;
 $str.=' Seasons.</p>';
 output($str);
 }
+
+
+
+$str="</div>";
+output($str);
 
 //Start of footer
 require_once 'g_footer.php';

@@ -5,20 +5,16 @@ $time_start = microtime(true);
 require_once 'g_functions.php';
 require_once 'mydatabase.php';
 
+//Set up headers etc
 $str="<br /><div class='nz-card'>";
-$str.="<header class='w3-container w3-blue-gray'>";
+$str.="<div class='w3-container $mycolour6'>";
+$str.="<div class='w3-pale-green'>";
 $str.="<h1>Creating Play by Play Season totals</h1>";
-$str.="</header>";
-output($str);
-
-$str="<div class='w3-container w3-pale-blue'>";
-output($str);
-//Text for middle box
-$str="<h2>Calculating relevant seasons</h3>";
-output($str);
-$str="<div class='w3-container w3-teal'>\n";
+$str.="</div>";
+$str.= "<div class='w3-panel $mycolour4 nz-card w3-round-xxlarge'>";
 $str.="<h2>Finding Team Seasons</h3>";
 output($str);
+
 //Truncate PBP Tables - in future check for new only
 $_cp_sql = "TRUNCATE `n_s_mv_off`; ";
 $result = $conn->prepare($_cp_sql); 
@@ -205,6 +201,12 @@ $_cp_sql = "INSERT INTO `n_roundup` SELECT NULL, concat(`f_games`.`league`,`f_ga
 $result = $conn->prepare($_cp_sql); 
 $result->execute(); 
 
+$str="</div>\n";
+$str.="<br />";
+output($str);
+
 //Start of footer
 require_once 'g_footer.php';
+
+
 ?>

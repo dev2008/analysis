@@ -7,16 +7,17 @@ require_once 'mydatabase.php';
 
 $time_start = microtime(true);
 $number_of_rowstotal=0;
+
+//Set up headers etc
 $str="<br /><div class='nz-card'>";
-$str.="<header class='w3-container w3-blue-gray'>";
-$str.="<h2>College Play By Play updates</h2>";
-$str.="</header>";
+$str.="<div class='w3-container $mycolour6'>";
+$str.="<div class='w3-pale-green'>";
+$str.="<h1>Process College Play By Play</h1>";
+$str.="</div>";
+$str.= "<div class='w3-panel $mycolour4 nz-card w3-round-xxlarge'>";
+$str.="<h2>Finding unprocessed records</h2>";
 output($str);
 
-$str="<div class='w3-container w3-pale-blue'>\n";
-$str.="<br />\n";
-$str.="<div class='w3-container w3-teal'>\n";
-output($str);
 
 //Check for weeks we have in games table but no Coaches
 $_cp_sql = "SELECT DISTINCT a.`league`,a.`season`,a.`week` FROM `f_games` a WHERE a.league LIKE 'NC%' AND NOT EXISTS ( SELECT 1 FROM `fc_gamecoaches` b WHERE a.league = b.league AND a.season = b.season AND a.week = b.week );";
@@ -110,50 +111,26 @@ while($row3 = fetch_row_db($res3)){
 			
 			$i++;
 		if ($i % 500 == 0) {
-			$str=' / Processed ';
+			$str='Processed ';
 			$str.=$i;
-			$str.=' College PBP Records ';
+			$str.=' College PBP Records /';
 			output($str);
 		}
 }
+
 //Report final 
-$str=' / Processed ';
+$str='Processed ';
 $str.=$i;
-$str.=' College PBP Records ';
+$str.=' Pro PBP Records ';
 $str.="</p>\n";
 $str.="<br />";
 output($str);	
 
 
-//Start of footer
 $str="</div>\n";
-$str.="<br />\n";
-$str.="</div>\n";
-$str.="<footer class='w3-container w3-cyan'>\n";
-output($str);
-$time_end = microtime(true);
-$time=$time_end - $time_start;
-$number_of_rowstotal=number_format($number_of_rowstotal);
-$str="<h3  class='w3-yellow'>Job complete - processed $number_of_rowstotal records in ";
-$str.=round($time,2) . "s";
-$str.="</h3>\n";
-output($str);
-
-$_cp_sql1 = "SELECT `modification_time` FROM `f_games` WHERE 1 ORDER BY `modification_time` DESC LIMIT 1";
-#$str="$_cp_sql1";        
-#output($str);
-$res1 = execute_db($_cp_sql1, $conn);
-	while($row = fetch_row_db($res1)){
-		$_cp_updated = $row[0];
-    } 
-$str="<div class='w3-right-align'>System was last updated on ";
-$changeDate = date("d-m-Y H:i", strtotime($_cp_updated));
-$str.= "$changeDate";
-$str.= "</div>\n";
-$str.="</footer>\n";
-$str.="</div>\n";        
 output($str);
 
 
-
+//Start of footer
+require_once 'g_footer.php';
 ?>

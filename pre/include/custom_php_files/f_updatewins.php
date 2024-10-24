@@ -200,19 +200,49 @@ while($row = fetch_row_db($result5)){
 	$_cp_myteam = $row[4];
 	//NZ 20200618 This was <90 but picking up old NFLAR post season games 
 	//WHERE `week`<17 AND `lose`=1 AND `league`='$_cp_myleague' AND `season`='$_cp_myseason' AND `week`=$_cp_myweek AND `opp_team`='$_cp_myteam'";
-	$_cp_sql = "SELECT `id_game`
-			FROM `f_games` 
-			WHERE `lose`=1 AND `league`='$_cp_myleague' AND `season`='$_cp_myseason' AND `week`=$_cp_myweek AND `opp_team`='$_cp_myteam'";
-			
-	$result6 = $conn->prepare($_cp_sql); 
-	$result6->execute(); 
-	$number_of_rows6 = $result6->rowCount() ; 
-	$i++;
-	//NZ 20200618 Added this to fix error above 
-	if (1<>$number_of_rows6 AND $_cp_myweek <17) {
-		$str= "<h3 class='w3-red'>No match found for <em>$_cp_myid ($_cp_myleague $_cp_myseason $_cp_myweek $_cp_myteam)</em></h3>";
-		output($str);
-	}
+try {
+    $_cp_sql = "SELECT `id_game`
+                FROM `f_games` 
+                WHERE `lose`=1 
+                  AND `league`=:league 
+                  AND `season`=:season 
+                  AND `week`=:week 
+                  AND `opp_team`=:opp_team";
+    
+    // Prepare the SQL query
+    $result6 = $conn->prepare($_cp_sql); 
+   
+    // Bind parameters
+    $result6->bindParam(':league', $_cp_myleague);
+    $result6->bindParam(':season', $_cp_myseason);
+    $result6->bindParam(':week', $_cp_myweek);
+    $result6->bindParam(':opp_team', $_cp_myteam);
+    
+    // Execute the query
+    $result6->execute(); 
+    $number_of_rows6 = $result6->rowCount();
+   
+    // Output no-match message and SQL query if no match is found
+    if (1 <> $number_of_rows6 AND $_cp_myweek < 17) {
+        // Manually substitute the parameters into the query for output
+        $sql_with_params = str_replace(
+            [':league', ':season', ':week', ':opp_team'],
+            [$conn->quote($_cp_myleague), $conn->quote($_cp_myseason), (int)$_cp_myweek, $conn->quote($_cp_myteam)],
+            $_cp_sql
+        );
+        
+        // Output the SQL query and no match message
+        $str = "<h3 class='w3-red'>No match found for <em>$_cp_myid ($_cp_myleague $_cp_myseason $_cp_myweek $_cp_myteam)</em></h3>";
+        $str .= "<p>SQL Query: <code>" . htmlspecialchars($sql_with_params) . "</code></p>";
+        output($str);
+    }
+} catch (PDOException $e) {
+    // Log or handle the error
+    echo "Error: " . $e->getMessage();
+}
+
+
+
 		$mycount2++;	
 	if ($mycount2 % 2500 == 0) {
 		$str='Checked ';
@@ -330,6 +360,10 @@ while($row = fetch_row_db($result4)){
    }
 
 echo "</div>";
+
+
+$str="</div>";
+output($str);
       
 require_once 'g_footer.php';
 

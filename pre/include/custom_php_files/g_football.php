@@ -7,12 +7,16 @@ require_once 'bb_functions.php';
 require_once 'g_functions.php';
 require_once 'mydatabase.php';
 
-#$str="<div class='w3-container $mycolour5 w3-round-xxlarge'>\n";
-$str="<div class='w3-container $mycolour15 w3-round-xxlarge'>\n";
-$str.="<h1>Gameplan Football Summary</h1>";
+//Create basic layout
+$str="<div class='w3-container $mycolour6 w3-round-xxlarge'>";
+$str.="<div class='w3-pale-green w3-round-large'>";
+$str.="<h1>&nbsp;Gameplan Football Summary</h1>";
+$str.="</div>";
+$str.= "<div class='w3-panel $mycolour4 w3-round-medium '>";
 output($str);
 
-$_cp_sql1 = "SELECT `a_type`,COUNT(*) FROM `n_playbyplay` WHERE 1 GROUP BY `a_type` ORDER BY `a_type` ASC";
+$_cp_sql1 = "SELECT `a_type`,COUNT(*) FROM `n_playbyplay` WHERE 1 GROUP BY `a_type` ORDER BY `a_type` ASC;
+				";
 $res1 = execute_db($_cp_sql1, $conn);
 $i=1;
         while($row = fetch_row_db($res1)){
@@ -20,11 +24,13 @@ $i=1;
 			$i++;
         }
  
-echo "<p>We have <i>$_cp_playcount[1]</i> College plays and <i>$_cp_playcount[2]</i> Pro plays in our database, the latest updates are:-";
+echo "<h3>We have <i>$_cp_playcount[1]</i> College plays and <i>$_cp_playcount[2]</i> Pro plays in our database, the latest updates are:-</h3>";
 
 echo "<table style='width:30%'  class='w3-table w3-striped w3-bordered'>";
 echo "<tr class='w3-amber'><th>League</th><th>Season</th><th>Week</th></tr>";
-$_cp_sql3 = "SELECT DISTINCT(`a_league`) FROM `n_playbyplay` ORDER BY `a_type` ASC, LENGTH(`a_league`) ASC, `a_league` ASC;";
+$_cp_sql3 = "SELECT DISTINCT `a_league`, `a_type`
+				FROM `n_playbyplay`
+				ORDER BY `a_type` ASC, LENGTH(`a_league`) ASC, `a_league` ASC;";
 $j=$i;
 $i=0;
 $res3 = execute_db($_cp_sql3, $conn);
@@ -52,6 +58,10 @@ echo "</table>";
 echo "<br />";
 
 
+//End of page
+$str="</div>";
+output($str);
+
+//Start of footer
 require_once 'g_footer.php';
 ?>
-

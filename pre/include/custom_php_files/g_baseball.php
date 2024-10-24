@@ -7,10 +7,14 @@ require_once 'bb_functions.php';
 require_once 'g_functions.php';
 require_once 'mydatabase.php';
 
-$str="<br />";
-$str.="<div class='w3-container $mycolour15 w3-round-xxlarge'>\n";
-$str.="<h1>Gameplan Baseball Summary</h1>";
+//Create basic layout
+$str="<div class='w3-container $mycolour6 w3-round-xxlarge'>";
+$str.="<div class='w3-pale-green w3-round-large'>";
+$str.="<h1>&nbsp;Gameplan Baseball Summary</h1>";
+$str.="</div>";
+$str.= "<div class='w3-panel $mycolour4 w3-round-medium '>";
 output($str);
+
 
 #Start the table
 echo "<table class='w3-table w3-striped w3-bordered w3-mobile'>\n";
@@ -180,8 +184,10 @@ $str.=".</h3>";
 */
 
 
-$str="<br>";
+//End of page
+$str="</div>";
 output($str);
+
+//Start of footer
 require_once 'g_footer.php';
 ?>
-

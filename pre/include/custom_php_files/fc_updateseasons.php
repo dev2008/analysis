@@ -474,6 +474,9 @@ $res = execute_db($_cp_sql, $conn);
 			}			 
 }
 
+$str="</div>";
+output($str);
+
 
 require_once 'g_footer.php';
 ?>

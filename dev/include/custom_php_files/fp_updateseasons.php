@@ -19,7 +19,7 @@ output($str);
 $str="<h2>About to process some records</h3>";
 output($str);
 //Reset all records, this won't be needed once all done then update will only look for unprocessed seasons
-$_cp_sql = "TRUNCATE `fp_seasons`";
+$_cp_sql = "TRUNCATE `g_seasons`";
 $res = execute_db($_cp_sql, $conn);
 
 //Retireve all Pro Leagues
@@ -61,7 +61,7 @@ $res = execute_db($_cp_sql, $conn);
 				$res3 = execute_db($_cp_sql3, $conn);
 					while($row3 = fetch_row_db($res3)){
 						$_cp_sql4 = "
-						INSERT INTO `fp_seasons` (`id`, `franchise`, `season`, `coach`, `won`, `lost`, `tie`, `scored`, `conceded`) 
+						INSERT INTO `g_seasons` (`id`, `franchise`, `season`, `coach`, `won`, `lost`, `tie`, `scored`, `conceded`) 
 						VALUES (NULL, '$row3[0]', '$_cp_myseason', '', '$row3[1]', '$row3[2]', '$row3[3]', '$row3[4]', '$row3[5]');	
 						";
 						$res4 = execute_db($_cp_sql4, $conn);
@@ -79,7 +79,7 @@ $res = execute_db($_cp_sql, $conn);
 		
 //Find Season Coaches
 $_cp_sql77 = "SELECT b.`league`,a.`franchise`, a.`season` 
-				FROM `fp_seasons` a
+				FROM `g_seasons` a
 				INNER JOIN `fp_franchises` b ON a.franchise=b.franchise
 				WHERE 1 
 				ORDER BY b.`league` ASC, a.`franchise` ASC, a.`season` ASC;";
@@ -107,7 +107,7 @@ $res77 = execute_db($_cp_sql77, $conn);
 							while($row78 = fetch_row_db($res78)){
 								$mycoach=$row78[0];
 							}
-						$_cp_sql4 = "UPDATE `fp_seasons` SET `coach`='$mycoach' WHERE `franchise`=$myfranchise AND `season`=$myseason";
+						$_cp_sql4 = "UPDATE `g_seasons` SET `coach`='$mycoach' WHERE `franchise`=$myfranchise AND `season`=$myseason";
 						$res4 = execute_db($_cp_sql4, $conn);
 						#echo "<br />$_cp_sql4";
 					}
@@ -119,7 +119,7 @@ $res77 = execute_db($_cp_sql77, $conn);
 					
 //Find missing Coaches
 $_cp_sql80 = "SELECT `franchise`, `season` 
-				FROM `fp_seasons` 
+				FROM `g_seasons` 
 				WHERE `coach` IS NULL OR `coach` = ''
 				ORDER BY `franchise`, `season` ;";
 $res80 = execute_db($_cp_sql80, $conn);
@@ -145,7 +145,7 @@ $res80 = execute_db($_cp_sql80, $conn);
 							while($row81 = fetch_row_db($res81)){
 								$mycoach=$row81[0];
 							}
-						$_cp_sql82 = "UPDATE `fp_seasons` SET `coach`='$mycoach' WHERE `franchise`=$myfranchise AND `season`=$myseason";
+						$_cp_sql82 = "UPDATE `g_seasons` SET `coach`='$mycoach' WHERE `franchise`=$myfranchise AND `season`=$myseason";
 						$res82 = execute_db($_cp_sql82, $conn);
 						#echo "<br />$_cp_sql82";
 					}
@@ -155,7 +155,7 @@ $res80 = execute_db($_cp_sql80, $conn);
 					output($str);
 
 $_cp_sql80 = "SELECT `franchise`, `season` 
-				FROM `fp_seasons` 
+				FROM `g_seasons` 
 				WHERE `coach` IS NULL OR `coach` = ''
 				ORDER BY `franchise`, `season` ;";
 $res80 = execute_db($_cp_sql80, $conn);
@@ -182,7 +182,7 @@ $res80 = execute_db($_cp_sql80, $conn);
 							while($row81 = fetch_row_db($res81)){
 								$mycoach=$row81[0];
 							}
-						$_cp_sql82 = "UPDATE `fp_seasons` SET `coach`='$mycoach' WHERE `franchise`=$myfranchise AND `season`=$myseason";
+						$_cp_sql82 = "UPDATE `g_seasons` SET `coach`='$mycoach' WHERE `franchise`=$myfranchise AND `season`=$myseason";
 						$res82 = execute_db($_cp_sql82, $conn);
 						#echo "<br />$_cp_sql82";
 					}	
@@ -201,7 +201,7 @@ $res = execute_db($_cp_sql, $conn);
 			$_cp_myfranchise=$row[0];
 	#Loop through all teams and extract details
 	$_cp_sql2 = "SELECT MAX(`won`), MAX(`lost`), MAX(`scored`), MAX(`conceded`)
-					FROM `fp_seasons` 
+					FROM `g_seasons` 
 					WHERE `franchise`=$_cp_myfranchise";
 	$res2 = execute_db($_cp_sql2, $conn);
         while($row2 = fetch_row_db($res2)){
